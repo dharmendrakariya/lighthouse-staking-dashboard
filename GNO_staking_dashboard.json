@@ -1,79 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    },
-    {
-      "name": "VAR_NODE_JOB",
-      "type": "constant",
-      "label": "node_job",
-      "value": "lighthouse",
-      "description": ""
-    },
-    {
-      "name": "VAR_VALIDATOR_JOB",
-      "type": "constant",
-      "label": "validator_job",
-      "value": "lighthouse_validator",
-      "description": ""
-    }
-  ],
-  "__elements": [],
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "alertlist",
-      "name": "Alert list",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "bargauge",
-      "name": "Bar gauge",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "8.3.0"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "table",
-      "name": "Table",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "text",
-      "name": "Text",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -98,17 +23,158 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": null,
-  "iteration": 1640044002381,
+  "id": 26,
+  "iteration": 1672060411745,
   "links": [],
   "liveNow": false,
   "panels": [
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
       },
-      "description": "This panel shows the earning during the last hour, and the annualized % of the hourly earning.\n\nThose data won't be shown until the first validator is at least one hour old, or that you started prometheus at least one hour ago.\n\nAlso, the annualized % might be wrong if you have downtime while new validators are getting validated",
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 101,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "count(validator_monitor_active) or on() vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Total",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "count(validator_monitor_active==1) or on() vector(0)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Active",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "count(validator_monitor_active==0) or on() vector(0)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Pending",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "count(validator_statuses==1) or on() vector(0)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Deposited",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "count(validator_monitor_slashed==1) or on() vector(0)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Slashing",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "count(validator_monitor_exited==1) or on() vector(0)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Exiting",
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "count(validator_statuses==6) or on() vector(0)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Exited",
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "count(validator_statuses==0) or on() vector(0)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Unknown",
+          "refId": "H"
+        }
+      ],
+      "title": "Validators statuses",
+      "type": "stat"
+    },
+    {
+      "description": "This panel shows the earning during the last hour, and the annualized % of the hourly earning.\n\nThose data won't be shown until the first validator is at least one hour old, or that you started Prometheus at least one hour ago.\n\nAlso, the annualized % might be wrong if you have downtime while new validators are getting validated",
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
@@ -117,8 +183,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-green",
+                "color": "red",
                 "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0
+              },
+              {
+                "color": "#299c46",
+                "value": 0.000001
               }
             ]
           }
@@ -144,7 +218,7 @@
                       "value": 0
                     },
                     {
-                      "color": "dark-green",
+                      "color": "#299c46",
                       "value": 5
                     }
                   ]
@@ -159,7 +233,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "ETH"
+              "options": "mGNO"
             },
             "properties": [
               {
@@ -168,7 +242,7 @@
               },
               {
                 "id": "unit",
-                "value": " Ξ"
+                "value": ""
               }
             ]
           },
@@ -221,10 +295,6 @@
               {
                 "id": "unit",
                 "value": "currencyEUR"
-              },
-              {
-                "id": "displayName",
-                "value": "EUR"
               }
             ]
           },
@@ -270,14 +340,14 @@
         "h": 3,
         "w": 4,
         "x": 0,
-        "y": 0
+        "y": 4
       },
-      "id": 80,
+      "id": 89,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
-        "orientation": "vertical",
+        "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "mean"
@@ -285,27 +355,41 @@
           "fields": "",
           "values": false
         },
-        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.0",
+      "pluginVersion": "8.3.6",
       "targets": [
         {
-          "expr": "((sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1h) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 1h > 0)*32E9))/1E9",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1h) - count(validator_monitor_balance_gwei > 16)*32 + count(validator_monitor_balance_gwei offset 1h > 0)*32)*absent(crypto_currency{pair=~\"mGNO$fiat\"})/1000000000",
           "instant": true,
           "interval": "",
-          "legendFormat": "ETH",
+          "legendFormat": "mGNO",
           "refId": "A"
         },
         {
-          "expr": "((sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1h) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 1h > 0)*32E9)*sum(crypto_currency{pair=\"eth$fiat\"}))/1E9",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1h) - count(validator_monitor_balance_gwei > 16)*32 + count(validator_monitor_balance_gwei offset 1h > 0)*32)*sum(crypto_currency{pair=\"mGNO$fiat\"})/1000000000",
           "instant": true,
           "interval": "",
           "legendFormat": "$fiat",
           "refId": "C"
         },
         {
-          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1h) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 1h > 0)*32E9)/(avg_over_time(count(validator_monitor_balance_gwei > 16E9)[1h:30s])*32E9/24/365)*100",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1h) - count(validator_monitor_balance_gwei > 16)*32 + count(validator_monitor_balance_gwei offset 1h > 0)*32)/(avg_over_time(count(validator_monitor_balance_gwei > 16)[1h:30s])*32/24/365)*100/1000000000",
           "instant": true,
           "interval": "",
           "legendFormat": "Annualized %",
@@ -316,11 +400,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "description": "This panel shows the earning during the last day, and the annualized % of the daily earning.\n\nThose data won't be shown until the first validator is at least one day old, or that you started prometheus at least one day ago.\n\nAlso, the annualized % might be wrong if you have downtime while new validators are getting validated",
+      "description": "This panel shows the earning during the last day, and the annualized % of the daily earning.\n\nThose data won't be shown until the first validator is at least one day old, or that you started Prometheus at least one day ago.\n\nAlso, the annualized % might be wrong if you have downtime while new validators are getting validated",
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
@@ -329,8 +409,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-green",
+                "color": "red",
                 "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0
+              },
+              {
+                "color": "#299c46",
+                "value": 0.000001
               }
             ]
           }
@@ -356,7 +444,7 @@
                       "value": 0
                     },
                     {
-                      "color": "dark-green",
+                      "color": "#299c46",
                       "value": 5
                     }
                   ]
@@ -371,7 +459,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "ETH"
+              "options": "mGNO"
             },
             "properties": [
               {
@@ -380,7 +468,7 @@
               },
               {
                 "id": "unit",
-                "value": "Ξ"
+                "value": ""
               }
             ]
           },
@@ -433,10 +521,6 @@
               {
                 "id": "unit",
                 "value": "currencyEUR"
-              },
-              {
-                "id": "displayName",
-                "value": "EUR"
               }
             ]
           },
@@ -482,14 +566,14 @@
         "h": 3,
         "w": 4,
         "x": 4,
-        "y": 0
+        "y": 4
       },
-      "id": 79,
+      "id": 91,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
-        "orientation": "vertical",
+        "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "mean"
@@ -497,27 +581,38 @@
           "fields": "",
           "values": false
         },
-        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.0",
+      "pluginVersion": "8.3.6",
       "targets": [
         {
-          "expr": "((sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1d) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 1d > 0)*32E9))/1E9",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1d) - count(validator_monitor_balance_gwei > 16)*32 + count(validator_monitor_balance_gwei offset 1d > 0)*32)*absent(crypto_currency{pair=~\"mGNO$fiat\"})/32/1000000000",
           "instant": true,
           "interval": "",
-          "legendFormat": "ETH",
+          "legendFormat": "GNO",
           "refId": "A"
         },
         {
-          "expr": "((sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1d) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 1d > 0)*32E9)*sum(crypto_currency{pair=\"eth$fiat\"}))/1E9",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1d) - count(validator_monitor_balance_gwei > 16)*32 + count(validator_monitor_balance_gwei offset 1d > 0)*32)*sum(crypto_currency{pair=\"mGNO$fiat\"})/1000000000",
           "instant": true,
           "interval": "",
           "legendFormat": "$fiat",
           "refId": "C"
         },
         {
-          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1d) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 1d > 0)*32E9)/(avg_over_time(count(validator_monitor_balance_gwei > 16E9)[1d:12m])*32E9/365)*100",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1d) - count(validator_monitor_balance_gwei > 16)*32 + count(validator_monitor_balance_gwei offset 1d > 0)*32)/(avg_over_time(count(validator_monitor_balance_gwei > 16)[1d:12m])*32/365)*100/1000000000",
           "instant": true,
           "interval": "",
           "legendFormat": "Annualized %",
@@ -528,11 +623,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "description": "This panel shows the earning during the last week, and the annualized % of the weekly earning.\n\nThose data won't be shown until the first validator is at least one week old, or that you started prometheus at least one week ago.\n\nAlso, the annualized % might be wrong if you have downtime while new validators are getting validated",
+      "description": "This panel shows the earning during the last week, and the annualized % of the weekly earning.\n\nThose data won't be shown until the first validator is at least one week old, or that you started Prometheus at least one week ago.\n\nAlso, the annualized % might be wrong if you have downtime while new validators are getting validated",
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
@@ -541,8 +632,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-green",
+                "color": "red",
                 "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0
+              },
+              {
+                "color": "#299c46",
+                "value": 0.000001
               }
             ]
           }
@@ -568,7 +667,7 @@
                       "value": 0
                     },
                     {
-                      "color": "dark-green",
+                      "color": "#299c46",
                       "value": 5
                     }
                   ]
@@ -583,7 +682,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "ETH"
+              "options": "mGNO"
             },
             "properties": [
               {
@@ -592,7 +691,7 @@
               },
               {
                 "id": "unit",
-                "value": "Ξ"
+                "value": ""
               }
             ]
           },
@@ -645,10 +744,6 @@
               {
                 "id": "unit",
                 "value": "currencyEUR"
-              },
-              {
-                "id": "displayName",
-                "value": "EUR"
               }
             ]
           },
@@ -694,14 +789,14 @@
         "h": 3,
         "w": 4,
         "x": 8,
-        "y": 0
+        "y": 4
       },
-      "id": 78,
+      "id": 93,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
-        "orientation": "vertical",
+        "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "mean"
@@ -709,27 +804,38 @@
           "fields": "",
           "values": false
         },
-        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.0",
+      "pluginVersion": "8.3.6",
       "targets": [
         {
-          "expr": "((sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1w) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 1w > 0)*32E9))/1E9",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1w) - count(validator_monitor_balance_gwei > 16)*32 + count(validator_monitor_balance_gwei offset 1w > 0)*32)*absent(crypto_currency{pair=~\"mGNO$fiat\"})/32/1000000000",
           "instant": true,
           "interval": "",
-          "legendFormat": "ETH",
+          "legendFormat": "GNO",
           "refId": "A"
         },
         {
-          "expr": "((sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1w) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 1w > 0)*32E9)*sum(crypto_currency{pair=\"eth$fiat\"}))/1E9",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1w) - count(validator_monitor_balance_gwei > 16)*32 + count(validator_monitor_balance_gwei offset 1w > 0)*32)*sum(crypto_currency{pair=\"mGNO$fiat\"})/1000000000",
           "instant": true,
           "interval": "",
           "legendFormat": "$fiat",
           "refId": "C"
         },
         {
-          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1w) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 1w > 0)*32E9)/(avg_over_time(count(validator_monitor_balance_gwei > 16E9)[1w:84m])*32E9*7/365)*100",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1w) - count(validator_monitor_balance_gwei > 16)*32 + count(validator_monitor_balance_gwei offset 1w > 0)*32)/(avg_over_time(count(validator_monitor_balance_gwei > 16)[1w:84m])*32*7/365)*100/1000000000",
           "instant": true,
           "interval": "",
           "legendFormat": "Annualized %",
@@ -740,11 +846,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "description": "This panel shows the earning during the last month, and the annualized % of the monthly earning.\n\nThose data won't be shown until the first validator is at least one month old, or that you started prometheus at least one month ago. Ensure to run Prometheus with the flag `--storage.tsdb.retention.time=31d` if you want this panel to get enough data\n\nAlso, the annualized % might be wrong if you have downtime while new validators are getting validated",
+      "description": "This panel shows the earning during the last month, and the annualized % of the monthly earning.\n\nThose data won't be shown until the first validator is at least one month old, or that you started Prometheus at least one month ago. Ensure to run Prometheus with the flag `--storage.tsdb.retention.time=31d` if you want this panel to get enough data\n\nAlso, the annualized % might be wrong if you have downtime while new validators are getting validated",
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
@@ -753,8 +855,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-green",
+                "color": "red",
                 "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0
+              },
+              {
+                "color": "#299c46",
+                "value": 0.000001
               }
             ]
           }
@@ -780,7 +890,7 @@
                       "value": 0
                     },
                     {
-                      "color": "dark-green",
+                      "color": "#299c46",
                       "value": 5
                     }
                   ]
@@ -795,7 +905,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "ETH"
+              "options": "mGNO"
             },
             "properties": [
               {
@@ -804,7 +914,7 @@
               },
               {
                 "id": "unit",
-                "value": "Ξ"
+                "value": ""
               }
             ]
           },
@@ -857,10 +967,6 @@
               {
                 "id": "unit",
                 "value": "currencyEUR"
-              },
-              {
-                "id": "displayName",
-                "value": "EUR"
               }
             ]
           },
@@ -906,14 +1012,14 @@
         "h": 3,
         "w": 4,
         "x": 12,
-        "y": 0
+        "y": 4
       },
-      "id": 77,
+      "id": 95,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
-        "orientation": "vertical",
+        "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
             "mean"
@@ -921,27 +1027,38 @@
           "fields": "",
           "values": false
         },
-        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.0",
+      "pluginVersion": "8.3.6",
       "targets": [
         {
-          "expr": "((sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 30d) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 30d > 0)*32E9))/1E9",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 30d) - count(validator_monitor_balance_gwei > 16)*32 + count(validator_monitor_balance_gwei offset 30d > 0)*32)*absent(crypto_currency{pair=~\"mGNO$fiat\"})/32/1000000000",
           "instant": true,
           "interval": "",
-          "legendFormat": "ETH",
+          "legendFormat": "GNO",
           "refId": "A"
         },
         {
-          "expr": "((sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 30d) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 30d > 0)*32E9)*sum(crypto_currency{pair=\"eth$fiat\"}))/1E9",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 30d) - count(validator_monitor_balance_gwei > 16)*32 + count(validator_monitor_balance_gwei offset 30d > 0)*32)*sum(crypto_currency{pair=\"mGNO$fiat\"})/1000000000",
           "instant": true,
           "interval": "",
           "legendFormat": "$fiat",
           "refId": "C"
         },
         {
-          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 30d) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 30d > 0)*32E9)/(avg_over_time(count(validator_monitor_balance_gwei > 16E9)[30d:6h])*32E9/12)*100",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 30d) - count(validator_monitor_balance_gwei > 16)*32 + count(validator_monitor_balance_gwei offset 30d > 0)*32)/(avg_over_time(count(validator_monitor_balance_gwei > 16)[30d:6h])*32/12)*100/1000000000",
           "instant": true,
           "interval": "",
           "legendFormat": "Annualized %",
@@ -952,23 +1069,27 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
       "fieldConfig": {
         "defaults": {
+          "decimals": 2,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-green",
+                "color": "red",
                 "value": null
+              },
+              {
+                "color": "#fade2a",
+                "value": 0
+              },
+              {
+                "color": "#299c46",
+                "value": 0.000001
               }
             ]
-          },
-          "unit": "locale"
+          }
         },
         "overrides": [
           {
@@ -990,7 +1111,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "ETH"
+              "options": "mGNO"
             },
             "properties": [
               {
@@ -1030,12 +1151,12 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "ETH"
+              "options": "mGNO"
             },
             "properties": [
               {
                 "id": "unit",
-                "value": "Ξ"
+                "value": ""
               }
             ]
           },
@@ -1060,10 +1181,6 @@
               {
                 "id": "unit",
                 "value": "currencyEUR"
-              },
-              {
-                "id": "displayName",
-                "value": "EUR"
               }
             ]
           },
@@ -1107,43 +1224,54 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
+        "w": 5,
         "x": 16,
-        "y": 0
+        "y": 4
       },
-      "id": 69,
+      "id": 97,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
-        "orientation": "vertical",
+        "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "mean"
           ],
           "fields": "",
           "values": false
         },
-        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.0",
+      "pluginVersion": "8.3.6",
       "targets": [
         {
-          "expr": "(sum(validator_monitor_balance_gwei) - count(validator_monitor_balance_gwei > 16E9 and validator_monitor_active == 1)*32E9)/1E9",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - count(validator_monitor_balance_gwei > 16 and validator_monitor_active == 1)*32*absent(crypto_currency{pair=~\"GNO$fiat\"}))/32/1000000000",
           "instant": true,
           "interval": "",
-          "legendFormat": "ETH",
+          "legendFormat": "GNO",
           "refId": "A"
         },
         {
-          "expr": "((sum(validator_monitor_balance_gwei) - count(validator_monitor_balance_gwei > 16E9 and validator_monitor_active == 1)*32E9)*sum(crypto_currency{pair=\"eth$fiat\"}))/1E9",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
+          "expr": "(sum(validator_monitor_balance_gwei) - count(validator_monitor_balance_gwei > 16 and validator_monitor_active == 1)*32)*sum(crypto_currency{pair=\"GNO$fiat\"})/1000000000",
           "instant": true,
           "interval": "",
           "legendFormat": "$fiat",
           "refId": "C"
         },
         {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "exemplar": false,
           "expr": "(sum(validator_monitor_balance_gwei) - count(validator_monitor_balance_gwei > 16E9 and validator_monitor_active == 1)*32E9)*100/(count(validator_monitor_balance_gwei > 16E9 and validator_monitor_active == 1)*32E9)",
           "instant": true,
           "interval": "",
@@ -1155,10 +1283,6 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
       "fieldConfig": {
         "defaults": {
           "decimals": 1,
@@ -1186,11 +1310,11 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 0
+        "w": 3,
+        "x": 21,
+        "y": 4
       },
-      "id": 84,
+      "id": 99,
       "links": [],
       "options": {
         "colorMode": "background",
@@ -1207,17 +1331,27 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.0",
+      "pluginVersion": "8.3.6",
       "targets": [
         {
-          "expr": "(time()-process_start_time_seconds{job=\"$node_job\"})/3600",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "(time()-process_start_time_seconds{instance=\"consensus-client:5054\"})/3600",
           "hide": false,
           "interval": "",
           "legendFormat": "Beacon",
           "refId": "B"
         },
         {
-          "expr": "(time()-process_start_time_seconds{job=\"$validator_job\"})/3600",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "(time()-process_start_time_seconds{instance=\"validator-client:5056\"})/3600",
           "instant": false,
           "interval": "",
           "legendFormat": "Validator",
@@ -1229,17 +1363,13 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
-            "axisLabel": "ETH",
+            "axisLabel": "GNO",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
@@ -1306,13 +1436,15 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 3
+        "y": 7
       },
       "id": 4,
+      "interval": "100",
+      "maxDataPoints": 200000,
       "options": {
         "legend": {
           "calcs": [],
-          "displayMode": "list",
+          "displayMode": "hidden",
           "placement": "bottom"
         },
         "tooltip": {
@@ -1322,20 +1454,22 @@
       "pluginVersion": "8.0.6",
       "targets": [
         {
-          "expr": "(sum(validator_monitor_balance_gwei > 16E9))/1E9",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "(sum(validator_monitor_balance_gwei > 16)/32)/1000000000",
           "interval": "",
           "legendFormat": "Total balance",
           "refId": "A"
         }
       ],
+      "timeFrom": "7d",
       "title": "Total balance",
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1393,7 +1527,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 3
+        "y": 7
       },
       "id": 87,
       "options": {
@@ -1409,7 +1543,12 @@
       "pluginVersion": "8.0.6",
       "targets": [
         {
-          "expr": "(validator_monitor_balance_gwei > 16E9)/1E9",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "(validator_monitor_balance_gwei>16)-32",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1425,7 +1564,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -1598,7 +1737,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 3
+        "y": 7
       },
       "id": 32,
       "options": {
@@ -1649,10 +1788,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
       "description": "This panel will count only the votes done since your validator process started",
       "fieldConfig": {
         "defaults": {
@@ -1796,7 +1931,7 @@
         "h": 12,
         "w": 8,
         "x": 0,
-        "y": 10
+        "y": 14
       },
       "id": 20,
       "options": {
@@ -1815,9 +1950,14 @@
           }
         ]
       },
-      "pluginVersion": "8.3.0",
+      "pluginVersion": "8.3.6",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": false,
           "expr": "max by (validator) (validator_monitor_unaggregated_attestation_total)",
           "format": "table",
           "hide": false,
@@ -1828,6 +1968,11 @@
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": false,
           "expr": "max by (validator) (validator_monitor_aggregated_attestation_total)",
           "format": "table",
           "hide": false,
@@ -1838,6 +1983,11 @@
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": false,
           "expr": "max by (validator) (validator_monitor_beacon_block_total)",
           "format": "table",
           "hide": false,
@@ -2040,7 +2190,7 @@
         "h": 12,
         "w": 8,
         "x": 8,
-        "y": 10
+        "y": 14
       },
       "id": 22,
       "options": {
@@ -2059,12 +2209,12 @@
           }
         ]
       },
-      "pluginVersion": "8.3.0",
+      "pluginVersion": "8.3.6",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "exemplar": false,
           "expr": "max by(validator) (validator_monitor_balance_gwei/1E9)",
@@ -2077,7 +2227,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "exemplar": false,
           "expr": "max by(validator) (validator_monitor_active)",
@@ -2091,7 +2241,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "exemplar": false,
           "expr": "max by(validator) (validator_monitor_slashed*1000)",
@@ -2105,7 +2255,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "exemplar": false,
           "expr": "max by(validator) (validator_monitor_exited*10)",
@@ -2119,7 +2269,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "exemplar": false,
           "expr": "max by(validator) (validator_monitor_withdrawable*100)",
@@ -2133,7 +2283,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "exemplar": false,
           "expr": "validator_monitor_validator_in_current_sync_committee{}",
@@ -2224,17 +2374,13 @@
       "type": "table"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
-            "axisLabel": "ETH",
+            "axisLabel": "mGNO",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "bars",
@@ -2332,7 +2478,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 10
+        "y": 14
       },
       "id": 81,
       "options": {
@@ -2352,7 +2498,12 @@
       "pluginVersion": "8.0.6",
       "targets": [
         {
-          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1h))/1E9 >= 0",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1h))/1000000000 >= 0",
           "format": "time_series",
           "instant": false,
           "interval": "1h",
@@ -2360,7 +2511,12 @@
           "refId": "A"
         },
         {
-          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1h))/1E9 <= 0",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1h))/1000000000 <= 0",
           "format": "time_series",
           "instant": false,
           "interval": "1h",
@@ -2369,22 +2525,18 @@
         }
       ],
       "timeFrom": "now-1d",
-      "title": "Hourly earning ETH last 24 hours",
+      "title": "Hourly earning mGNO last 24 hours",
       "transformations": [],
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
-            "axisLabel": "ETH",
+            "axisLabel": "GNO",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "bars",
@@ -2467,7 +2619,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 16
+        "y": 20
       },
       "hideTimeOverride": false,
       "id": 82,
@@ -2489,7 +2641,12 @@
       "pluginVersion": "8.0.6",
       "targets": [
         {
-          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1d))/1E9 >= 0",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1d))/32/1000000000 >= 0",
           "format": "time_series",
           "instant": false,
           "interval": "1d",
@@ -2497,7 +2654,12 @@
           "refId": "A"
         },
         {
-          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1d))/1E9 < 0",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "(sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1d))/32/1000000000 < 0",
           "format": "time_series",
           "instant": false,
           "interval": "1d",
@@ -2506,13 +2668,13 @@
         }
       ],
       "timeFrom": "now-7d",
-      "title": "Daily earning ETH last 7 days",
+      "title": "Daily earning GNO last 7 days",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -2552,9 +2714,9 @@
       },
       "gridPos": {
         "h": 1,
-        "w": 11,
+        "w": 13,
         "x": 0,
-        "y": 22
+        "y": 26
       },
       "id": 30,
       "links": [],
@@ -2574,7 +2736,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.0",
+      "pluginVersion": "8.3.6",
       "targets": [
         {
           "expr": "1",
@@ -2587,55 +2749,39 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [
-            {
-              "options": {
-                "1": {
-                  "text": ""
-                }
-              },
-              "type": "value"
-            }
-          ],
+          "decimals": 1,
+          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "#299c46",
+                "color": "red",
                 "value": null
               },
               {
-                "color": "rgba(237, 129, 40, 0.89)",
-                "value": 0
+                "color": "#FADE2A",
+                "value": 0.17
               },
               {
-                "color": "#8F3BB8",
-                "value": 0
+                "color": "#299c46",
+                "value": 11.9
               }
             ]
           },
-          "unit": "none"
+          "unit": "h"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 1,
-        "w": 5,
-        "x": 11,
-        "y": 22
+        "h": 2,
+        "w": 3,
+        "x": 13,
+        "y": 26
       },
-      "id": 41,
+      "id": 56,
       "links": [],
-      "maxDataPoints": 100,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -2643,7 +2789,7 @@
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "mean"
+            "lastNotNull"
           ],
           "fields": "",
           "values": false
@@ -2651,38 +2797,382 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.0",
+      "pluginVersion": "8.3.6",
       "targets": [
         {
-          "expr": "1",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": false,
+          "expr": "(time()-process_start_time_seconds{instance=\"consensus-client:5054\"})/3600",
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "title": "ALERTS",
+      "title": "Node process started",
+      "transformations": [],
       "type": "stat"
     },
     {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                0.1
+              ],
+              "type": "lt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "10s",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          },
+          {
+            "evaluator": {
+              "params": [
+                0.1
+              ],
+              "type": "lt"
+            },
+            "operator": {
+              "type": "or"
+            },
+            "query": {
+              "params": [
+                "B",
+                "10s",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "0m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "One of the two process just restarted.",
+        "name": "WARN NODE/VALIDATOR: The process just restarted",
+        "noDataState": "no_data",
+        "notifications": [
+          {
+            "uid": "CL4Toqv4z"
+          },
+          {
+            "uid": "RydtTqvVz"
+          }
+        ]
+      },
+      "description": "This alert is useful only for people who has automatic restart of the process after crash. \nThis can be made for example by using the prysm.bat file on windows with \"set PRYSM_AUTORESTART=true&\", or with docker with \"--restart always\"",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "left",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "decimals": 1,
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "transparent",
+                "value": 0.1
+              }
+            ]
+          },
+          "unit": "h"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 5,
-        "w": 8,
+        "w": 4,
         "x": 16,
-        "y": 22
+        "y": 26
       },
-      "id": 86,
+      "id": 61,
       "options": {
-        "content": "# Lighthouse staking dashboard\nMade by Yoldark from Prysm lot of keys dashboard  \n\neth donation : 0x945DF808617bDD3753237eCF0d5D2A8EEedE76d2  \nsource : https://github.com/Yoldark34/lighthouse-grafana-dashboard\n",
-        "mode": "markdown"
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
       },
-      "pluginVersion": "8.3.0",
-      "title": "Credits",
-      "type": "text"
+      "pluginVersion": "8.0.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "(time()-process_start_time_seconds{instance=\"consensus-client:5054\"})/3600",
+          "interval": "",
+          "legendFormat": "{{job}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "(time()-process_start_time_seconds{instance=\"validator-client:5056\"})/3600",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{job}}",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "op": "lt",
+          "value": 0.1,
+          "visible": true
+        }
+      ],
+      "title": "Warn: The process just restarted",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                50
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "10s",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "avg"
+            },
+            "type": "query"
+          },
+          {
+            "evaluator": {
+              "params": [
+                100
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "or"
+            },
+            "query": {
+              "params": [
+                "B",
+                "10s",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "avg"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "0m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "NODE ALERT: MORE THAN 50 ERRORS OR 100 WARNINGS IN THE LAST HOUR",
+        "name": "NODE: 50 errors  or 100 warns in 1h",
+        "noDataState": "ok",
+        "notifications": [
+          {
+            "uid": "CL4Toqv4z"
+          },
+          {
+            "uid": "RydtTqvVz"
+          }
+        ]
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 50
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 26
+      },
+      "id": 52,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "8.0.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "error_total{instance=\"consensus-client:5054\"} - error_total{instance=\"consensus-client:5054\"} offset 1h",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "errors",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "warn_total{instance=\"consensus-client:5054\"} - warn_total{instance=\"consensus-client:5054\"} offset 1h",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "warnings",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "op": "gt",
+          "value": 50,
+          "visible": true
+        }
+      ],
+      "title": "Alert: 50 errors  or 100 warns  in 1h",
+      "type": "timeseries"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "This graph is made for trading purpose mostly.\nSupposing that if a lot of validators are exiting, price is gonna dump.\n\nYoldark : Not working as supposed right now because lighthouse do not provide enough information on the state of the network\n\nAlso this can prevent to exit while exiting queue is too long, same for depositing while pending queue is too long.\n\n",
       "fieldConfig": {
@@ -2827,10 +3317,10 @@
         ]
       },
       "gridPos": {
-        "h": 10,
-        "w": 8,
+        "h": 9,
+        "w": 13,
         "x": 0,
-        "y": 23
+        "y": 27
       },
       "hideTimeOverride": false,
       "id": 46,
@@ -2873,107 +3363,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "decimals": 1,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "#FADE2A",
-                "value": 0.17
-              },
-              {
-                "color": "#299c46",
-                "value": 11.9
-              }
-            ]
-          },
-          "unit": "h"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 8,
-        "y": 23
-      },
-      "id": 56,
-      "links": [],
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "8.3.0",
-      "targets": [
-        {
-          "expr": "(time()-process_start_time_seconds{job=\"$node_job\"})/3600",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Node process started",
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 5,
-        "x": 11,
-        "y": 23
-      },
-      "id": 24,
-      "options": {
-        "alertName": "",
-        "dashboardAlerts": true,
-        "dashboardTitle": "",
-        "maxItems": 10,
-        "showOptions": "current",
-        "sortOrder": 3,
-        "stateFilter": {
-          "alerting": true,
-          "execution_error": true,
-          "no_data": true,
-          "ok": false,
-          "paused": true,
-          "pending": true
-        },
-        "tags": []
-      },
-      "pluginVersion": "8.3.0",
-      "title": "All alerts",
-      "type": "alertlist"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -3002,8 +3392,8 @@
       "gridPos": {
         "h": 2,
         "w": 3,
-        "x": 8,
-        "y": 25
+        "x": 13,
+        "y": 28
       },
       "id": 26,
       "links": [],
@@ -3022,7 +3412,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.0",
+      "pluginVersion": "8.3.6",
       "targets": [
         {
           "expr": "slotclock_present_slot-beacon_head_state_latest_block_slot",
@@ -3036,666 +3426,6 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "#F2CC0C",
-                "value": 5
-              },
-              {
-                "color": "#299c46",
-                "value": 10
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 8,
-        "y": 27
-      },
-      "id": 34,
-      "links": [],
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "8.3.0",
-      "targets": [
-        {
-          "expr": "libp2p_peers",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Peers connected",
-      "type": "stat"
-    },
-    {
-      "alert": {
-        "alertRuleTags": {},
-        "conditions": [
-          {
-            "evaluator": {
-              "params": [
-                66
-              ],
-              "type": "lt"
-            },
-            "operator": {
-              "type": "and"
-            },
-            "query": {
-              "params": [
-                "A",
-                "10s",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          }
-        ],
-        "executionErrorState": "alerting",
-        "for": "0m",
-        "frequency": "1m",
-        "handler": 1,
-        "message": "NETWORK ALERT: THE PARTICIPATION RATE IS BELOW 66%! You won't get any reward until the participation rate rise up above 66% again. This alert doesn't require any action from you",
-        "name": "NETWORK: Participation rate below 66%",
-        "noDataState": "ok",
-        "notifications": []
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "description": "I'm not sure about this one yet",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "line+area"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "transparent",
-                "value": 66
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 1,
-        "w": 4,
-        "x": 16,
-        "y": 27
-      },
-      "id": 65,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "pluginVersion": "8.0.6",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "(beacon_participation_prev_epoch_head_attesting_gwei_total/beacon_participation_prev_epoch_target_attesting_gwei_total)*100",
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [
-        {
-          "colorMode": "critical",
-          "op": "lt",
-          "value": 66,
-          "visible": true
-        }
-      ],
-      "title": "Alert: Participation rate < 66%",
-      "type": "timeseries"
-    },
-    {
-      "alert": {
-        "alertRuleTags": {},
-        "conditions": [
-          {
-            "evaluator": {
-              "params": [
-                50
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "and"
-            },
-            "query": {
-              "params": [
-                "A",
-                "10s",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                100
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "B",
-                "10s",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          }
-        ],
-        "executionErrorState": "alerting",
-        "for": "0m",
-        "frequency": "1m",
-        "handler": 1,
-        "message": "NODE ALERT: MORE THAN 50 ERRORS OR 100 WARNINGS IN THE LAST HOUR",
-        "name": "NODE: 50 errors  or 100 warns in 1h",
-        "noDataState": "ok",
-        "notifications": []
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "line+area"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "transparent",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 50
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 1,
-        "w": 4,
-        "x": 20,
-        "y": 27
-      },
-      "id": 52,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "pluginVersion": "8.0.6",
-      "targets": [
-        {
-          "expr": "error_total{job=\"lighthouse\"} - error_total{job=\"lighthouse\"} offset 1h",
-          "instant": false,
-          "interval": "",
-          "legendFormat": "errors",
-          "refId": "A"
-        },
-        {
-          "expr": "warn_total{job=\"lighthouse\"} - warn_total{job=\"lighthouse\"} offset 1h",
-          "instant": false,
-          "interval": "",
-          "legendFormat": "warnings",
-          "refId": "B"
-        }
-      ],
-      "thresholds": [
-        {
-          "colorMode": "critical",
-          "op": "gt",
-          "value": 50,
-          "visible": true
-        }
-      ],
-      "title": "Alert: 50 errors  or 100 warns  in 1h",
-      "type": "timeseries"
-    },
-    {
-      "alert": {
-        "alertRuleTags": {},
-        "conditions": [
-          {
-            "evaluator": {
-              "params": [
-                0.1
-              ],
-              "type": "lt"
-            },
-            "operator": {
-              "type": "and"
-            },
-            "query": {
-              "params": [
-                "A",
-                "10s",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          },
-          {
-            "evaluator": {
-              "params": [
-                0.1
-              ],
-              "type": "lt"
-            },
-            "operator": {
-              "type": "or"
-            },
-            "query": {
-              "params": [
-                "B",
-                "10s",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          }
-        ],
-        "executionErrorState": "alerting",
-        "for": "0m",
-        "frequency": "1m",
-        "handler": 1,
-        "message": "One of the two process just restarted.",
-        "name": "WARN NODE/VALIDATOR: The process just restarted",
-        "noDataState": "no_data",
-        "notifications": []
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "description": "This alert is useful only for people who has automatic restart of the process after crash. \nThis can be made for example by using the prysm.bat file on windows with \"set PRYSM_AUTORESTART=true&\", or with docker with \"--restart always\"",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "left",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "line+area"
-            }
-          },
-          "decimals": 1,
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "transparent",
-                "value": 0.1
-              }
-            ]
-          },
-          "unit": "h"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 1,
-        "w": 4,
-        "x": 16,
-        "y": 28
-      },
-      "id": 61,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "pluginVersion": "8.0.6",
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "(time()-process_start_time_seconds{job=\"lighthouse\"})/3600",
-          "interval": "",
-          "legendFormat": "{{job}}",
-          "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "(time()-process_start_time_seconds{job=\"lighthouse_validator\"})/3600",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{job}}",
-          "refId": "B"
-        }
-      ],
-      "thresholds": [
-        {
-          "colorMode": "critical",
-          "op": "lt",
-          "value": 0.1,
-          "visible": true
-        }
-      ],
-      "title": "Warn: The process just restarted",
-      "transformations": [],
-      "type": "timeseries"
-    },
-    {
-      "alert": {
-        "alertRuleTags": {},
-        "conditions": [
-          {
-            "evaluator": {
-              "params": [
-                50
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "and"
-            },
-            "query": {
-              "params": [
-                "A",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "avg"
-            },
-            "type": "query"
-          }
-        ],
-        "executionErrorState": "alerting",
-        "for": "0",
-        "frequency": "1m",
-        "handler": 1,
-        "message": "NODE ALERT: MORE THAN 50 SLOTS BEHIND THAN THE CHAIN",
-        "name": "NODE: 50 slots behind",
-        "noDataState": "ok",
-        "notifications": []
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "line+area"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "transparent",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 50
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 1,
-        "w": 4,
-        "x": 20,
-        "y": 28
-      },
-      "id": 28,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "pluginVersion": "8.0.6",
-      "targets": [
-        {
-          "expr": "beacon_head_state_latest_block_slot-beacon_head_state_slot",
-          "interval": "",
-          "legendFormat": "node slots behind",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [
-        {
-          "colorMode": "critical",
-          "op": "gt",
-          "value": 50,
-          "visible": true
-        }
-      ],
-      "title": "Alert: 50 slots behind",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
       "description": "This panel won't have consistant values during the first hour of the node started process",
       "fieldConfig": {
         "defaults": {
@@ -3737,10 +3467,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 6,
         "w": 3,
-        "x": 8,
-        "y": 29
+        "x": 13,
+        "y": 30
       },
       "id": 40,
       "options": {
@@ -3756,10 +3486,15 @@
         "showUnfilled": true,
         "text": {}
       },
-      "pluginVersion": "8.3.0",
+      "pluginVersion": "8.3.6",
       "targets": [
         {
-          "expr": "error_total{job=\"$node_job\"} - error_total{job=\"$node_job\"} offset 1h",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "error_total{instance=\"consensus-client:5054\"} - error_total{instance=\"consensus-client:5054\"} offset 1h",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -3767,7 +3502,12 @@
           "refId": "A"
         },
         {
-          "expr": "warn_total{job=\"$node_job\"} - warn_total{job=\"$node_job\"} offset 1h",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "warn_total{instance=\"consensus-client:5054\"} - warn_total{instance=\"consensus-client:5054\"} offset 1h",
           "hide": false,
           "interval": "",
           "legendFormat": "Warns",
@@ -3777,131 +3517,6 @@
       "title": "Hourly log type counter",
       "transformations": [],
       "type": "bargauge"
-    },
-    {
-      "alert": {
-        "alertRuleTags": {},
-        "conditions": [
-          {
-            "evaluator": {
-              "params": [
-                0
-              ],
-              "type": "lt"
-            },
-            "operator": {
-              "type": "and"
-            },
-            "query": {
-              "params": [
-                "A",
-                "10s",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          }
-        ],
-        "executionErrorState": "alerting",
-        "for": "0m",
-        "frequency": "1m",
-        "handler": 1,
-        "message": "VALIDATOR ALERT: THE EARNING IN THE LAST HOUR IS LESS THAN 0",
-        "name": "VALIDATOR: Hourly earning <= 0",
-        "noDataState": "ok",
-        "notifications": []
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "line+area"
-            }
-          },
-          "decimals": 8,
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "transparent",
-                "value": 0
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 1,
-        "w": 4,
-        "x": 16,
-        "y": 29
-      },
-      "id": 48,
-      "interval": "",
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "pluginVersion": "8.0.6",
-      "targets": [
-        {
-          "expr": "sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1h) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 1h > 0)*32E9",
-          "instant": false,
-          "interval": "",
-          "legendFormat": "validators earning on 1h",
-          "refId": "A"
-        }
-      ],
-      "title": "Alert: Hourly earning <= 0",
-      "type": "timeseries"
     },
     {
       "alert": {
@@ -3961,11 +3576,14 @@
         "message": "NODE/VALIDATOR: THE NODE OR VALIDATOR IS DOWN FOR MORE THAN 1 MINUTE",
         "name": "NODE/VALIDATOR: Process down",
         "noDataState": "alerting",
-        "notifications": []
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "notifications": [
+          {
+            "uid": "CL4Toqv4z"
+          },
+          {
+            "uid": "RydtTqvVz"
+          }
+        ]
       },
       "fieldConfig": {
         "defaults": {
@@ -4020,10 +3638,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 1,
+        "h": 6,
         "w": 4,
-        "x": 20,
-        "y": 29
+        "x": 16,
+        "y": 31
       },
       "id": 44,
       "options": {
@@ -4039,7 +3657,12 @@
       "pluginVersion": "8.0.6",
       "targets": [
         {
-          "expr": "up{job=\"lighthouse\"}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "up{instance=\"consensus-client:5054\"}",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
@@ -4047,7 +3670,12 @@
           "refId": "A"
         },
         {
-          "expr": "up{job=\"lighthouse_validator\"}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "up{instance=\"validator-client:5056\"}",
           "interval": "",
           "legendFormat": "validator",
           "refId": "B"
@@ -4071,7 +3699,7 @@
           {
             "evaluator": {
               "params": [
-                0
+                50
               ],
               "type": "gt"
             },
@@ -4081,29 +3709,36 @@
             "query": {
               "params": [
                 "A",
-                "10s",
+                "5m",
                 "now"
               ]
             },
             "reducer": {
               "params": [],
-              "type": "max"
+              "type": "avg"
             },
             "type": "query"
           }
         ],
         "executionErrorState": "alerting",
-        "for": "0m",
+        "for": "0",
         "frequency": "1m",
         "handler": 1,
-        "message": "VALIDATOR ALERT: YOUR VALIDATOR HAS BEEN SLASHED",
-        "name": "VALIDATOR: Validator has been slashed",
+        "message": "NODE ALERT: MORE THAN 50 SLOTS BEHIND THAN THE CHAIN",
+        "name": "NODE: 50 slots behind",
         "noDataState": "ok",
-        "notifications": []
+        "notifications": [
+          {
+            "uid": "CL4Toqv4z"
+          },
+          {
+            "uid": "RydtTqvVz"
+          }
+        ]
       },
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -4149,7 +3784,7 @@
               },
               {
                 "color": "red",
-                "value": 0
+                "value": 50
               }
             ]
           },
@@ -4158,12 +3793,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 1,
+        "h": 5,
         "w": 4,
-        "x": 16,
-        "y": 30
+        "x": 20,
+        "y": 31
       },
-      "id": 50,
+      "id": 28,
       "options": {
         "legend": {
           "calcs": [],
@@ -4177,14 +3812,303 @@
       "pluginVersion": "8.0.6",
       "targets": [
         {
-          "expr": "validator_monitor_slashed",
+          "expr": "beacon_head_state_latest_block_slot-beacon_head_state_slot",
           "interval": "",
-          "legendFormat": "{{validator}}",
+          "legendFormat": "node slots behind",
           "refId": "A"
         }
       ],
-      "title": "Alert: Validator has been slashed",
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "op": "gt",
+          "value": 50,
+          "visible": true
+        }
+      ],
+      "title": "Alert: 50 slots behind",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "#F2CC0C",
+                "value": 5
+              },
+              {
+                "color": "#299c46",
+                "value": 10
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 0,
+        "y": 36
+      },
+      "id": 34,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.6",
+      "targets": [
+        {
+          "expr": "libp2p_peers",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Peers connected",
+      "type": "stat"
+    },
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                66
+              ],
+              "type": "lt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "10s",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "0m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "NETWORK ALERT: THE PARTICIPATION RATE IS BELOW 66%! You won't get any reward until the participation rate rise up above 66% again. This alert doesn't require any action from you",
+        "name": "NETWORK: Participation rate below 66%",
+        "noDataState": "ok",
+        "notifications": [
+          {
+            "uid": "CL4Toqv4z"
+          },
+          {
+            "uid": "RydtTqvVz"
+          }
+        ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "I'm not sure about this one yet",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "transparent",
+                "value": 66
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 4,
+        "y": 36
+      },
+      "id": 65,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "8.0.6",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "(beacon_participation_prev_epoch_head_attesting_gwei_total/beacon_participation_prev_epoch_target_attesting_gwei_total)*100",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "op": "lt",
+          "value": 66,
+          "visible": true
+        }
+      ],
+      "title": "Alert: Participation rate < 66%",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "text": ""
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#299c46",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 0
+              },
+              {
+                "color": "#8F3BB8",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 7,
+        "x": 9,
+        "y": 36
+      },
+      "id": 41,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.6",
+      "targets": [
+        {
+          "expr": "1",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "ALERTS",
+      "type": "stat"
     },
     {
       "alert": {
@@ -4221,11 +4145,18 @@
         "message": "Validator loosing money !",
         "name": "Validator loosing money Alert",
         "noDataState": "keep_state",
-        "notifications": []
+        "notifications": [
+          {
+            "uid": "CL4Toqv4z"
+          },
+          {
+            "uid": "RydtTqvVz"
+          }
+        ]
       },
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -4342,10 +4273,10 @@
         ]
       },
       "gridPos": {
-        "h": 1,
+        "h": 2,
         "w": 4,
         "x": 20,
-        "y": 30
+        "y": 36
       },
       "id": 2,
       "options": {
@@ -4367,12 +4298,330 @@
           "refId": "A"
         }
       ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "op": "lt",
+          "value": 0.01,
+          "visible": true
+        }
+      ],
       "title": "Alert : Validator loosing money",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 7,
+        "x": 9,
+        "y": 37
+      },
+      "id": 24,
+      "options": {
+        "alertName": "",
+        "dashboardAlerts": true,
+        "dashboardTitle": "",
+        "maxItems": 10,
+        "showOptions": "current",
+        "sortOrder": 3,
+        "stateFilter": {
+          "alerting": true,
+          "execution_error": true,
+          "no_data": true,
+          "ok": false,
+          "paused": true,
+          "pending": true
+        },
+        "tags": []
+      },
+      "pluginVersion": "8.3.6",
+      "title": "All alerts",
+      "type": "alertlist"
+    },
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                0
+              ],
+              "type": "lt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "10s",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "0m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "VALIDATOR ALERT: THE EARNING IN THE LAST HOUR IS LESS THAN 0",
+        "name": "VALIDATOR: Hourly earning <= 0",
+        "noDataState": "ok",
+        "notifications": [
+          {
+            "uid": "CL4Toqv4z"
+          },
+          {
+            "uid": "RydtTqvVz"
+          }
+        ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "decimals": 8,
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "transparent",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 16,
+        "y": 37
+      },
+      "id": 48,
+      "interval": "",
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "8.0.6",
+      "targets": [
+        {
+          "expr": "sum(validator_monitor_balance_gwei) - sum(validator_monitor_balance_gwei offset 1h) - count(validator_monitor_balance_gwei > 16E9)*32E9 + count(validator_monitor_balance_gwei offset 1h > 0)*32E9",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "validators earning on 1h",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "op": "lt",
+          "value": 0,
+          "visible": true
+        }
+      ],
+      "title": "Alert: Hourly earning <= 0",
+      "type": "timeseries"
+    },
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                0
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "10s",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "max"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "0m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "VALIDATOR ALERT: YOUR VALIDATOR HAS BEEN SLASHED",
+        "name": "VALIDATOR: Validator has been slashed",
+        "noDataState": "ok",
+        "notifications": [
+          {
+            "uid": "CL4Toqv4z"
+          },
+          {
+            "uid": "RydtTqvVz"
+          }
+        ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 38
+      },
+      "id": 50,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "8.0.6",
+      "targets": [
+        {
+          "expr": "validator_monitor_slashed",
+          "interval": "",
+          "legendFormat": "{{validator}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "op": "gt",
+          "value": 0,
+          "visible": true
+        }
+      ],
+      "title": "Alert: Validator has been slashed",
       "type": "timeseries"
     }
   ],
-  "refresh": "10s",
-  "schemaVersion": 33,
+  "refresh": "",
+  "schemaVersion": 34,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -4380,47 +4629,27 @@
       {
         "hide": 2,
         "name": "node_job",
-        "query": "${VAR_NODE_JOB}",
+        "query": "lighthouse",
         "skipUrlSync": false,
-        "type": "constant",
-        "current": {
-          "value": "${VAR_NODE_JOB}",
-          "text": "${VAR_NODE_JOB}",
-          "selected": false
-        },
-        "options": [
-          {
-            "value": "${VAR_NODE_JOB}",
-            "text": "${VAR_NODE_JOB}",
-            "selected": false
-          }
-        ]
+        "type": "constant"
       },
       {
         "hide": 2,
         "name": "validator_job",
-        "query": "${VAR_VALIDATOR_JOB}",
+        "query": "lighthouse_validator",
         "skipUrlSync": false,
-        "type": "constant",
-        "current": {
-          "value": "${VAR_VALIDATOR_JOB}",
-          "text": "${VAR_VALIDATOR_JOB}",
-          "selected": false
-        },
-        "options": [
-          {
-            "value": "${VAR_VALIDATOR_JOB}",
-            "text": "${VAR_VALIDATOR_JOB}",
-            "selected": false
-          }
-        ]
+        "type": "constant"
       },
       {
         "allValue": "ETH",
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(crypto_currency, pair)",
         "hide": 0,
@@ -4462,8 +4691,8 @@
     ]
   },
   "timezone": "",
-  "title": "ETH staking dashboard lot keys for lighthouse",
-  "uid": "t2yHaa3Zz3lot",
-  "version": 187,
+  "title": "GNO staking dashboard lot keys for lighthouse",
+  "uid": "t2yHaa3Zz3lrt",
+  "version": 3,
   "weekStart": ""
 }
