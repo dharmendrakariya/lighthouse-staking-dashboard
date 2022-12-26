@@ -11,7 +11,7 @@ It should run without though.
 Supports pairs: etheur,ethusd,ethgbp,ethcad,ethchf,ethjpy,ethbtc
 
 This graph is gain and running monitoring oriented, you should use another graph if you want system monitoring oriented graphs 
-<img src=preview.PNG>
+<img src=Preview.png>
 
 # Requirement
 * Grafana 8
